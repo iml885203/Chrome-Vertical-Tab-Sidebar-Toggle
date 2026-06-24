@@ -103,7 +103,7 @@ See [macOS configuration](#schemes-initlua) below for schemes, triggers, and cus
 
 </details>
 
-<details>
+<details open>
 <summary><b>Windows</b> — AutoHotkey v2 (keyboard-only, <code>Ctrl+S</code>)</summary>
 
 **Requirements:** Windows 10/11, [AutoHotkey **v2**](https://www.autohotkey.com/), [Descolada's `UIA.ahk`](https://github.com/Descolada/UIA-v2) (downloaded separately), and Chrome with the vertical tab sidebar enabled.
