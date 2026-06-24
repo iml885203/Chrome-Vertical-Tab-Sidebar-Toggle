@@ -27,10 +27,10 @@ https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
 
 | Platform | How it works | Get started |
 |----------|--------------|-------------|
-| **macOS** | Hammerspoon + Accessibility API. Keyboard, mouse-edge, or both. | [Installation (macOS)](#installation-macos) ↓ |
-| **Windows** | AutoHotkey v2 + UI Automation. Keyboard-only (`Ctrl+S`). | [Windows guide](windows/README.md) → |
+| **macOS** | Hammerspoon + Accessibility API. Keyboard, mouse-edge, or both. | [Installation → macOS](#installation) ↓ |
+| **Windows** | AutoHotkey v2 + UI Automation. Keyboard-only (`Ctrl+S`). | [Installation → Windows](#installation) ↓ |
 
-> The rest of this page covers the **macOS** version. Windows users: head to the [Windows guide](windows/README.md).
+Both platforms are documented on this page. The sections after **Installation** (Schemes, Triggers, Configuration) are macOS-specific.
 
 ## Supported Chrome Locales
 
@@ -49,16 +49,7 @@ The script matches sidebar button labels from Chrome's accessibility tree. It wo
 | Portuguese (Brazil) | `pt-BR` | Mostrar guias | Ocultar guias |
 | Russian | `ru` | Развернуть вкладки | Свернуть вкладки |
 
-To add another language, find the button label in your Chrome locale and append it to the `SIDEBAR_LABELS` table in `init.lua`.
-
-## Requirements (macOS)
-
-- macOS 13+
-- [Hammerspoon](https://www.hammerspoon.org)
-- Google Chrome with vertical tab sidebar enabled
-- Accessibility permission granted to Hammerspoon
-
-> Windows requirements are listed separately in the [Windows guide](windows/README.md).
+To add another language, find the button label in your Chrome locale and append it to the `SIDEBAR_LABELS` list — in `init.lua` (macOS) or `windows/ChromeVTabToggle.ahk` (Windows).
 
 ## Enable vertical tab sidebar in Chrome
 
@@ -69,9 +60,14 @@ The vertical tab sidebar is not enabled by default. To turn it on:
 3. Click **Relaunch** to restart Chrome
 4. After restart, right-click an empty area in the tab bar to see the option
 
-## Installation (macOS)
+## Installation
 
-> On Windows? See the [Windows (AutoHotkey) guide](windows/README.md) instead — the steps below are macOS/Hammerspoon only.
+Pick your platform. Both do the same thing; the tooling differs.
+
+<details open>
+<summary><b>macOS</b> — Hammerspoon (keyboard / mouse-edge / both)</summary>
+
+**Requirements:** macOS 13+, [Hammerspoon](https://www.hammerspoon.org), Chrome with the vertical tab sidebar enabled, and Accessibility permission for Hammerspoon.
 
 1. Install Hammerspoon:
 
@@ -102,6 +98,41 @@ The vertical tab sidebar is not enabled by default. To turn it on:
 5. (Optional) Add Hammerspoon to login items so it starts automatically:
    - System Settings → General → Login Items
    - Add Hammerspoon
+
+See [macOS configuration](#schemes-initlua) below for schemes, triggers, and customizing the shortcut.
+
+</details>
+
+<details>
+<summary><b>Windows</b> — AutoHotkey v2 (keyboard-only, <code>Ctrl+S</code>)</summary>
+
+**Requirements:** Windows 10/11, [AutoHotkey **v2**](https://www.autohotkey.com/), [Descolada's `UIA.ahk`](https://github.com/Descolada/UIA-v2) (downloaded separately), and Chrome with the vertical tab sidebar enabled.
+
+1. Install **AutoHotkey v2** from <https://www.autohotkey.com/> (not v1.1).
+
+2. Download **`UIA.ahk`** from [Descolada/UIA-v2](https://github.com/Descolada/UIA-v2) (`Lib/UIA.ahk`) and put it in the `windows/` folder, next to `ChromeVTabToggle.ahk`:
+
+   ```
+   windows/
+   ├── ChromeVTabToggle.ahk
+   └── UIA.ahk          ← you download this (~400 KB, third-party, not in this repo)
+   ```
+
+3. Double-click `windows/ChromeVTabToggle.ahk` to run it. A tray notification confirms it started.
+
+4. Press **`Ctrl+S`** while Chrome is focused to toggle the sidebar. (`Ctrl+S` still saves normally in every other app.)
+
+5. (Optional) Auto-start on login: press `Win+R`, type `shell:startup`, and drop a **shortcut** to `ChromeVTabToggle.ahk` into that folder.
+
+For shortcut customization and troubleshooting, see the [detailed Windows notes](windows/README.md).
+
+</details>
+
+---
+
+# macOS reference
+
+The sections below apply to the **macOS (Hammerspoon)** version. Windows users can stop at [Installation](#installation) — see the [Windows notes](windows/README.md) for Windows-specific details.
 
 ## Schemes (`init.lua`)
 
@@ -236,7 +267,7 @@ After editing, reload Hammerspoon config to apply.
 | `init.lua` | Three-scheme version (keyboard / mouse / both) — macOS |
 | `init-keyboard-only.lua` | Keyboard-only version, no mouse detection — macOS |
 | `windows/ChromeVTabToggle.ahk` | Windows port (AutoHotkey v2, keyboard-only) |
-| `windows/README.md` | Windows setup & usage guide |
+| `windows/README.md` | Windows full reference (customization, troubleshooting) |
 
 ## Credits
 

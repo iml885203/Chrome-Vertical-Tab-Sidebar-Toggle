@@ -1,5 +1,8 @@
 # Windows (AutoHotkey v2)
 
+> **Quick install is in the [main README → Installation → Windows](../README.md#installation).**
+> This page is the full reference: shortcut customization, auto-start, locales, and troubleshooting.
+
 A Windows port of Chrome-Vertical-Tab-Sidebar-Toggle. The macOS version uses
 Hammerspoon + the Accessibility API; this version uses **AutoHotkey v2 + the
 Windows UI Automation (UIA) API** to do the exact same thing: find Chrome's
