@@ -49,12 +49,14 @@ The script matches sidebar button labels from Chrome's accessibility tree. It wo
 
 To add another language, find the button label in your Chrome locale and append it to the `SIDEBAR_LABELS` table in `init.lua`.
 
-## Requirements
+## Requirements (macOS)
 
 - macOS 13+
 - [Hammerspoon](https://www.hammerspoon.org)
 - Google Chrome with vertical tab sidebar enabled
 - Accessibility permission granted to Hammerspoon
+
+> Windows requirements are listed separately in the [Windows guide](windows/README.md).
 
 ## Enable vertical tab sidebar in Chrome
 
@@ -65,7 +67,9 @@ The vertical tab sidebar is not enabled by default. To turn it on:
 3. Click **Relaunch** to restart Chrome
 4. After restart, right-click an empty area in the tab bar to see the option
 
-## Installation
+## Installation (macOS)
+
+> On Windows? See the [Windows (AutoHotkey) guide](windows/README.md) instead — the steps below are macOS/Hammerspoon only.
 
 1. Install Hammerspoon:
 
