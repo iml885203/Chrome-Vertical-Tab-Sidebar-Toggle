@@ -5,32 +5,36 @@
 <h1 align="center">Chrome-Vertical-Tab-Sidebar-Toggle</h1>
 
 <p align="center">
-  <strong>Un script de Hammerspoon para mostrar/ocultar la barra lateral de pestañas verticales nativa de Chrome mediante la API de Accesibilidad de macOS</strong><br>
-  Atajo de teclado, activación por borde de la pantalla, o ambos — tú decides.
+  <strong>Muestra u oculta la barra lateral de pestañas verticales nativa de Chrome con un atajo de teclado.</strong><br>
+  macOS (Hammerspoon) y Windows (AutoHotkey) — atajo de teclado, activación por borde con el ratón, o ambos.
 </p>
 
 <p align="center">
-  <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README_ja.md">日本語</a> · <a href="README_ko.md">한국어</a> · <a href="README_pt-BR.md">Português</a> · <a href="README_ru.md">Русский</a> · <a href="README_fr.md">Français</a> · <a href="README_de.md">Deutsch</a>
+  <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README_ja.md">日本語</a> · <a href="README_ko.md">한국어</a> · Español · <a href="README_pt-BR.md">Português</a> · <a href="README_ru.md">Русский</a> · <a href="README_fr.md">Français</a> · <a href="README_de.md">Deutsch</a>
 </p>
 
 ---
 
-## Características
+## Qué hace
 
-Chrome tiene una barra lateral de pestañas verticales integrada, pero no hay atajo de teclado para mostrarla u ocultarla. Este script lo soluciona con dos versiones:
-
-- **`init.lua`** — soporta tres esquemas seleccionables (teclado / borde de la pantalla / ambos)
-- **`init-keyboard-only.lua`** — solo atajo de teclado, sin detección de ratón
-
-Funciona recorriendo el árbol de accesibilidad de Chrome (`AXUIElement`) para encontrar el botón "Expand Tabs" / "Collapse Tabs" y presionarlo mediante `AXPress`. Mismo enfoque que [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast).
+Chrome tiene una barra lateral de pestañas verticales integrada, pero no hay atajo de teclado para mostrarla u ocultarla. Este proyecto añade uno. Encuentra el botón "Expand Tabs" / "Collapse Tabs" de Chrome en el árbol de accesibilidad del sistema operativo y lo presiona por ti — usando Hammerspoon en macOS y AutoHotkey en Windows. Mismo enfoque que [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast).
 
 ## Demo
 
 https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
 
+## Elige tu plataforma
+
+| Plataforma | Cómo funciona | Empezar |
+|----------|--------------|-------------|
+| **macOS** | Hammerspoon + API de Accesibilidad. Teclado, borde con el ratón, o ambos. | [Instalación → macOS](#installation) ↓ |
+| **Windows** | AutoHotkey v2 + UI Automation. Solo teclado (`Ctrl+S`). | [Instalación → Windows](#installation) ↓ |
+
+Ambas plataformas están completamente documentadas en esta página: consulta la [referencia de macOS](#macos-reference) y la [referencia de Windows](#windows-reference) más abajo.
+
 ## Configuraciones regionales de Chrome compatibles
 
-El script compara las etiquetas de los botones de la barra lateral en el árbol de accesibilidad de Chrome. Funciona directamente con estas configuraciones regionales:
+El script compara las etiquetas de los botones de la barra lateral en el árbol de accesibilidad de Chrome. Funciona directamente con cualquiera de estas configuraciones regionales:
 
 | Idioma | Configuración regional | Mostrar pestañas | Ocultar pestañas |
 |--------|------------------------|------------------|------------------|
@@ -45,14 +49,7 @@ El script compara las etiquetas de los botones de la barra lateral en el árbol 
 | Portugués (Brasil) | `pt-BR` | Mostrar guias | Ocultar guias |
 | Ruso | `ru` | Развернуть вкладки | Свернуть вкладки |
 
-Para añadir otro idioma, busca la etiqueta del botón en tu configuración regional de Chrome y añádela a la tabla `SIDEBAR_LABELS` en `init.lua`.
-
-## Requisitos
-
-- macOS 13+
-- [Hammerspoon](https://www.hammerspoon.org)
-- Google Chrome con la barra lateral de pestañas verticales habilitada
-- Permiso de accesibilidad otorgado a Hammerspoon
+Para añadir otro idioma, busca la etiqueta del botón en tu configuración regional de Chrome y añádela a la lista `SIDEBAR_LABELS` — en `init.lua` (macOS) o `windows/ChromeVTabToggle.ahk` (Windows).
 
 ## Activar la barra lateral de pestañas verticales en Chrome
 
@@ -65,13 +62,20 @@ La barra lateral de pestañas verticales no está activada por defecto. Para act
 
 ## Instalación
 
+Elige tu plataforma. Ambas hacen lo mismo; lo que cambia son las herramientas.
+
+<details open>
+<summary><b>macOS</b> — Hammerspoon (teclado / borde con el ratón / ambos)</summary>
+
+**Requisitos:** macOS 13+, [Hammerspoon](https://www.hammerspoon.org), Chrome con la barra lateral de pestañas verticales habilitada, y permiso de accesibilidad para Hammerspoon.
+
 1. Instala Hammerspoon:
 
    ```bash
    brew install --cask hammerspoon
    ```
 
-2. Elige una versión y cópiala en la configuración de Hammerspoon:
+2. Elige una versión y cópiala en tu configuración de Hammerspoon:
 
    **Versión con esquemas** (tres modos, por defecto):
    ```bash
@@ -95,14 +99,49 @@ La barra lateral de pestañas verticales no está activada por defecto. Para act
    - Ajustes del Sistema → General → Ítems de inicio
    - Añade Hammerspoon
 
-## Esquemas (`init.lua`)
+Consulta la [configuración de macOS](#schemes-macos-initlua) más abajo para esquemas, activadores y personalización del atajo.
+
+</details>
+
+<details open>
+<summary><b>Windows</b> — AutoHotkey v2 (solo teclado, <code>Ctrl+S</code>)</summary>
+
+**Requisitos:** Windows 10/11, [AutoHotkey **v2**](https://www.autohotkey.com/), [`UIA.ahk` de Descolada](https://github.com/Descolada/UIA-v2) (se descarga aparte), y Chrome con la barra lateral de pestañas verticales habilitada.
+
+1. Instala **AutoHotkey v2** desde <https://www.autohotkey.com/> (no la v1.1).
+
+2. Descarga **`UIA.ahk`** desde [Descolada/UIA-v2](https://github.com/Descolada/UIA-v2) (`Lib/UIA.ahk`) y colócalo en la carpeta `windows/`, junto a `ChromeVTabToggle.ahk`:
+
+   ```
+   windows/
+   ├── ChromeVTabToggle.ahk
+   └── UIA.ahk          ← esto lo descargas tú (~400 KB, de terceros, no está en este repositorio)
+   ```
+
+3. Haz doble clic en `windows/ChromeVTabToggle.ahk` para ejecutarlo. Una notificación en la bandeja del sistema confirma que se ha iniciado.
+
+4. Pulsa **`Ctrl+S`** mientras Chrome está enfocado para mostrar/ocultar la barra lateral. (`Ctrl+S` sigue guardando normalmente en cualquier otra aplicación.)
+
+5. (Opcional) Inicio automático al arrancar sesión: pulsa `Win+R`, escribe `shell:startup` y coloca un **acceso directo** a `ChromeVTabToggle.ahk` en esa carpeta.
+
+Para personalizar el atajo y solucionar problemas, consulta las [notas detalladas de Windows](windows/README.md).
+
+</details>
+
+---
+
+# macOS reference
+
+Las secciones siguientes se aplican a la versión de **macOS (Hammerspoon)**. La [referencia de Windows](#windows-reference) está más abajo.
+
+## Schemes (macOS, `init.lua`)
 
 Edita la variable `SCHEME` en la parte superior de `init.lua` para elegir un modo:
 
 | Esquema | Valor | Activadores |
-|---------|-------|-------------|
+|--------|-------|----------|
 | Solo teclado | `1` | `Cmd+S` muestra/oculta la barra lateral |
-| Solo borde de la pantalla | `2` | Pasar el ratón por el borde izquierdo de la pantalla para expandir, mover más allá de 380px para contraer |
+| Solo borde de la pantalla | `2` | Pasar el ratón por el borde izquierdo para expandir, mover más allá de 380px para contraer |
 | Teclado + Ratón | `3` | Ambos activadores activos (por defecto) |
 
 ```lua
@@ -111,23 +150,23 @@ local SCHEME = 3  -- 1 = Teclado, 2 = Borde de la pantalla, 3 = Ambos
 
 Cuando Chrome no es la aplicación en primer plano, todos los activadores se desactivan automáticamente.
 
-## Activadores
+## Activadores (macOS)
 
 | Activador | Acción | Esquema |
-|-----------|--------|---------|
+|---------|--------|--------|
 | `Cmd+S` | Mostrar/ocultar barra lateral | 1 & 3 |
 | Ratón en el borde izquierdo (0-2px) durante 0.15s | Expandir barra lateral | 2 & 3 |
 | Ratón se mueve más allá de 380px del borde izquierdo | Contraer barra lateral | 2 & 3 |
 
-## Depuración
+## Depuración (macOS)
 
 | Atajo | Acción |
-|-------|--------|
+|----------|--------|
 | `Cmd+Alt+D` | Mostrar estado del servicio |
 | `Cmd+Alt+B` | Volcar todos los botones AX de Chrome a la consola |
 | `Cmd+Alt+R` | Forzar reinicio de todos los servicios |
 
-## Configuración
+## Configuración (macOS)
 
 ### Selector de esquema (`init.lua`)
 
@@ -150,7 +189,7 @@ local MOUSE_POLL_INTERVAL = 0.05  -- segundos entre comprobaciones de posición 
 local DEBUG = true  -- imprimir mensajes de depuración en la consola
 ```
 
-## Personalizar el atajo de teclado
+## Personalizar el atajo de teclado (macOS)
 
 Disponible tanto en `init.lua` como en `init-keyboard-only.lua`. El atajo por defecto es `Cmd+S`, que sobrescribe el atajo nativo de Chrome para "Guardar página". Para cambiarlo, edita la comprobación de tecla en la función `createKeyTap`:
 
@@ -210,27 +249,63 @@ if flags.cmd and not flags.ctrl and not flags.alt and flags.shift
 
 Después de editar, recarga la configuración de Hammerspoon para aplicar los cambios.
 
-## Cómo funciona
+## Cómo funciona (macOS)
 
 1. Un `eventtap` intercepta `Cmd+S` cuando Chrome está en primer plano (esquemas 1 & 3)
 2. Un sondeo de posición del ratón (50Hz) detecta el paso por el borde izquierdo y la salida (esquemas 2 & 3)
 3. Ambos activadores llaman a `toggleSidebar()`, que:
-   - Obtiene el elemento raíz AX de Chrome mediante `hs.axuielement.applicationElement()`
+   - Obtiene el elemento raíz `AXUIElement` de Chrome mediante `hs.axuielement.applicationElement()`
    - Busca en las ventanas un botón con `AXDescription` que coincida con "Expand Tabs" o "Collapse Tabs"
    - Llama a `performAction("AXPress")` en el botón encontrado
 4. Un temporizador de vigilancia (watchdog) detecta si el sondeo del ratón falla y lo reinicia automáticamente (esquemas 2 & 3)
 5. Períodos de tolerancia previenen activaciones falsas durante el cambio de aplicaciones
 
+---
+
+# Windows reference
+
+
+Las secciones siguientes se aplican a la versión de **Windows (AutoHotkey)**. Consulta las [notas de Windows](windows/README.md) para el inicio automático y la solución de problemas.
+
+## Uso (Windows)
+
+| Atajo | Acción |
+|----------|--------|
+| `Ctrl+S` (en Chrome) | Muestra/oculta la barra lateral de pestañas verticales |
+| `Ctrl+S` (en otro lugar) | Se transmite como el atajo normal de Guardar |
+| `Ctrl+Alt+Q` | Cierra el script |
+
+El script solo intercepta `Ctrl+S` cuando la ventana activa es una ventana de Chromium (clase de ventana `Chrome_WidgetWin_1`), por lo que guardar sigue funcionando en cualquier otra aplicación.
+
+## Personalizar el atajo (Windows)
+
+Por defecto es `Ctrl+S`. Para usar otra tecla, edita la línea del hotkey en `windows/ChromeVTabToggle.ahk`:
+
+```autohotkey
+$^s:: {        ; ^ = Ctrl, ! = Alt, + = Shift, # = Win
+```
+
+Por ejemplo, `Ctrl+Alt+S` sería `$^!s::`. Si dejas de usar `Ctrl+S`, también puedes eliminar la rama de paso `{Blind}^s`, ya que no queda ningún atajo nativo que preservar.
+
+## Cómo funciona (Windows)
+
+1. Un hotkey global de `Ctrl+S` comprueba si la ventana activa es de Chromium (`WinGetClass = "Chrome_WidgetWin_1"`). Si no lo es, transmite `Ctrl+S`.
+2. `UIA.ElementFromHandle()` obtiene la raíz de UI Automation de la ventana activa.
+3. `FindSidebarButton()` recorre el árbol de UIA buscando un botón cuyo nombre coincida con alguna etiqueta de `SIDEBAR_LABELS`.
+4. `button.Invoke()` muestra/oculta la barra lateral — el equivalente en UIA de `AXPress` en macOS.
+
 ## Archivos
 
 | Archivo | Descripción |
-|---------|-------------|
-| `init.lua` | Versión con 3 esquemas (teclado / ratón / ambos) |
-| `init-keyboard-only.lua` | Versión solo teclado, sin detección de ratón |
+|------|-------------|
+| `init.lua` | Versión con 3 esquemas (teclado / ratón / ambos) — macOS |
+| `init-keyboard-only.lua` | Versión solo teclado, sin detección de ratón — macOS |
+| `windows/ChromeVTabToggle.ahk` | Port para Windows (AutoHotkey v2, solo teclado) |
+| `windows/README.md` | Referencia completa de Windows (personalización, solución de problemas) |
 
 ## Créditos
 
-- Concepto original:[ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast) by RotulPlastik
+- Concepto original: [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast) por RotulPlastik
 - Adaptado para Hammerspoon con soporte de activación por borde de la pantalla
 
 ## Licencia

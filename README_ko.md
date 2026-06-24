@@ -5,28 +5,32 @@
 <h1 align="center">Chrome-Vertical-Tab-Sidebar-Toggle</h1>
 
 <p align="center">
-  <strong>macOS 손쉬운 사용 API를 사용하여 Chrome의 기본 수직 탭 사이드바를 토글하는 Hammerspoon 스크립트</strong><br>
-  키보드 단축키, 화면 가장자리 마우스 호버 트리거, 또는 둘 다 — 원하는 대로 선택하세요.
+  <strong>키보드 단축키로 Chrome의 기본 수직 탭 사이드바를 토글하세요.</strong><br>
+  macOS (Hammerspoon)와 Windows (AutoHotkey) — 키보드 단축키, 화면 가장자리 마우스 트리거, 또는 둘 다.
 </p>
 
 <p align="center">
-  <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README_ja.md">日本語</a> · <a href="README_es.md">Español</a> · <a href="README_pt-BR.md">Português</a> · <a href="README_ru.md">Русский</a> · <a href="README_fr.md">Français</a> · <a href="README_de.md">Deutsch</a>
+  <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README_ja.md">日本語</a> · 한국어 · <a href="README_es.md">Español</a> · <a href="README_pt-BR.md">Português</a> · <a href="README_ru.md">Русский</a> · <a href="README_fr.md">Français</a> · <a href="README_de.md">Deutsch</a>
 </p>
 
 ---
 
 ## 소개
 
-Chrome에는 내장된 수직 탭 사이드바가 있지만, 이를 토글할 키보드 단축키가 없습니다. 이 스크립트는 두 가지 버전으로 이 문제를 해결합니다:
-
-- **`init.lua`** — 세 가지 선택 가능한 스킴 지원 (키보드 / 화면 가장자리 호버 / 둘 다)
-- **`init-keyboard-only.lua`** — 키보드 단축키만, 마우스 감지 없음
-
-Chrome의 손쉬운 사용 트리(`AXUIElement`)를 탐색하여 "Expand Tabs" / "Collapse Tabs" 버튼을 찾고 `AXPress`로 누르는 방식입니다. [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast)와 동일한 접근 방식입니다.
+Chrome에는 내장된 수직 탭 사이드바가 있지만, 이를 토글할 키보드 단축키가 없습니다. 이 프로젝트가 그 단축키를 추가합니다. OS 손쉬운 사용 트리에서 Chrome의 "Expand Tabs" / "Collapse Tabs" 버튼을 찾아 대신 눌러줍니다 — macOS에서는 Hammerspoon을, Windows에서는 AutoHotkey를 사용합니다. [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast)와 동일한 접근 방식입니다.
 
 ## 데모
 
 https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
+
+## 플랫폼 선택
+
+| 플랫폼 | 작동 방식 | 시작하기 |
+|--------|-----------|----------|
+| **macOS** | Hammerspoon + 손쉬운 사용 API. 키보드, 화면 가장자리 호버, 또는 둘 다. | [설치 → macOS](#installation) ↓ |
+| **Windows** | AutoHotkey v2 + UI Automation. 키보드 전용 (`Ctrl+S`). | [설치 → Windows](#installation) ↓ |
+
+두 플랫폼 모두 이 페이지에 상세히 문서화되어 있습니다: 아래의 [macOS 참고](#macos-reference)와 [Windows 참고](#windows-reference)를 확인하세요.
 
 ## 지원 Chrome 로케일
 
@@ -45,14 +49,7 @@ https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
 | 포르투갈어 (브라질) | `pt-BR` | Mostrar guias | Ocultar guias |
 | 러시아어 | `ru` | Развернуть вкладки | Свернуть вкладки |
 
-다른 언어를 추가하려면 사용 중인 Chrome 로케일의 버튼 레이블을 확인하여 `init.lua`의 `SIDEBAR_LABELS` 테이블에 추가하세요.
-
-## 요구 사항
-
-- macOS 13+
-- [Hammerspoon](https://www.hammerspoon.org)
-- 수직 탭 사이드바가 활성화된 Google Chrome
-- Hammerspoon에 손쉬운 사용 권한이 부여되어 있어야 함
+다른 언어를 추가하려면 사용 중인 Chrome 로케일의 버튼 레이블을 확인하여 `SIDEBAR_LABELS` 목록에 추가하세요 — `init.lua` (macOS) 또는 `windows/ChromeVTabToggle.ahk` (Windows)에서 가능합니다.
 
 ## Chrome에서 수직 탭 사이드바 활성화하기
 
@@ -64,6 +61,13 @@ https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
 4. 재시작 후 탭 표시줄의 빈 공간을 우클릭하여 옵션을 확인하세요
 
 ## 설치
+
+플랫폼을 선택하세요. 두 플랫폼 모두 동일한 작업을 수행하며, 사용하는 도구만 다릅니다.
+
+<details open>
+<summary><b>macOS</b> — Hammerspoon (키보드 / 화면 가장자리 호버 / 둘 다)</summary>
+
+**요구 사항:** macOS 13+, [Hammerspoon](https://www.hammerspoon.org), 수직 탭 사이드바가 활성화된 Chrome, 그리고 Hammerspoon에 부여된 손쉬운 사용 권한.
 
 1. Hammerspoon을 설치하세요:
 
@@ -95,7 +99,42 @@ https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
    - 시스템 설정 → 일반 → 로그인 항목
    - Hammerspoon을 추가하세요
 
-## 스킴 (`init.lua`)
+스킴, 트리거, 단축키 사용자 정의에 대해서는 아래 [macOS 설정](#schemes-macos-initlua)을 참고하세요.
+
+</details>
+
+<details open>
+<summary><b>Windows</b> — AutoHotkey v2 (키보드 전용, <code>Ctrl+S</code>)</summary>
+
+**요구 사항:** Windows 10/11, [AutoHotkey **v2**](https://www.autohotkey.com/), [Descolada의 `UIA.ahk`](https://github.com/Descolada/UIA-v2) (별도 다운로드), 그리고 수직 탭 사이드바가 활성화된 Chrome.
+
+1. <https://www.autohotkey.com/>에서 **AutoHotkey v2**를 설치하세요 (v1.1 아님).
+
+2. [Descolada/UIA-v2](https://github.com/Descolada/UIA-v2)에서 **`UIA.ahk`**(`Lib/UIA.ahk`)를 다운로드하여 `ChromeVTabToggle.ahk` 옆의 `windows/` 폴더에 넣으세요:
+
+   ```
+   windows/
+   ├── ChromeVTabToggle.ahk
+   └── UIA.ahk          ← 직접 다운로드 (~400 KB, 서드파티, 이 저장소에 미포함)
+   ```
+
+3. `windows/ChromeVTabToggle.ahk`를 더블 클릭하여 실행하세요. 트레이 알림이 시작을 확인해 줍니다.
+
+4. Chrome이 포커스된 상태에서 **`Ctrl+S`**를 눌러 사이드바를 토글하세요. (`Ctrl+S`는 다른 모든 앱에서는 평소대로 저장으로 작동합니다.)
+
+5. (선택) 로그인 시 자동 시작: `Win+R`을 누르고 `shell:startup`을 입력한 뒤, `ChromeVTabToggle.ahk`의 **바로 가기**를 해당 폴더에 넣으세요.
+
+단축키 사용자 정의 및 문제 해결은 [상세 Windows 참고](windows/README.md)를 확인하세요.
+
+</details>
+
+---
+
+# macOS reference
+
+아래 섹션은 **macOS (Hammerspoon)** 버전에 적용됩니다. [Windows 참고](#windows-reference)는 더 아래에 이어집니다.
+
+## Schemes (macOS, `init.lua`)
 
 `init.lua` 상단의 `SCHEME` 변수를 편집하여 모드를 선택:
 
@@ -111,7 +150,7 @@ local SCHEME = 3  -- 1 = 키보드, 2 = 화면 가장자리 호버, 3 = 둘 다
 
 Chrome이 포그라운드 앱이 아닐 때 모든 트리거는 자동으로 비활성화됩니다.
 
-## 트리거
+## 트리거 (macOS)
 
 | 트리거 | 동작 | 스킴 |
 |--------|------|------|
@@ -119,7 +158,7 @@ Chrome이 포그라운드 앱이 아닐 때 모든 트리거는 자동으로 비
 | 왼쪽 가장자리 (0-2px)에 0.15초 호버 | 사이드바 펼치기 | 2 & 3 |
 | 왼쪽 가장자리에서 380px 초과 마우스 이동 | 사이드바 접기 | 2 & 3 |
 
-## 디버그
+## 디버그 (macOS)
 
 | 단축키 | 동작 |
 |--------|------|
@@ -127,7 +166,7 @@ Chrome이 포그라운드 앱이 아닐 때 모든 트리거는 자동으로 비
 | `Cmd+Alt+B` | Chrome의 AX 버튼을 모두 콘솔에 출력 |
 | `Cmd+Alt+R` | 모든 서비스 강제 재시작 |
 
-## 설정
+## 설정 (macOS)
 
 ### 스킴 선택 (`init.lua`)
 
@@ -150,9 +189,9 @@ local MOUSE_POLL_INTERVAL = 0.05  -- 마우스 위치 확인 간격 (초)
 local DEBUG = true  -- 콘솔에 디버그 메시지 출력
 ```
 
-## 키보드 단축키 사용자 정의
+## 키보드 단축키 사용자 정의 (macOS)
 
-`init.lua`와 `init-keyboard-only.lua` 모두에서 사용 가능합니다. 기본 단축키는 `Cmd+S`이며, Chrome의 "페이지 저장" 단축키를 덮어씁니다. 변경하려면 `createKeyTap` 함수 내의 키 검사를 편집하세요:
+`init.lua`와 `init-keyboard-only.lua` 모두에서 사용 가능합니다. 기본 단축키는 `Cmd+S`이며, Chrome의 기본 "페이지 저장" 단축키를 덮어씁니다. 변경하려면 `createKeyTap` 함수 내의 키 검사를 편집하세요:
 
 ```lua
 -- Cmd+S -> toggle sidebar
@@ -210,28 +249,64 @@ if flags.cmd and not flags.ctrl and not flags.alt and flags.shift
 
 편집 후 Hammerspoon 설정을 다시 로드하여 적용하세요.
 
-## 작동 방식
+## 작동 방식 (macOS)
 
-1. Chrome 포그라운드 시 `Cmd+S` 차단 및 제어 (스킴 1 & 3)
-2. 화면 왼쪽 가장자리 호버 및 이탈 감지 (스킴 2 & 3)
-3. 두 트리거 모두 `toggleSidebar()` 호출:
-   - `hs.axuielement.applicationElement()`로 Chrome의 AX 루트 요소 가져오기
+1. `eventtap`이 Chrome 포그라운드 시 `Cmd+S`를 차단합니다 (스킴 1 & 3)
+2. 마우스 위치 폴러(50Hz)가 왼쪽 가장자리 호버 및 이탈을 감지합니다 (스킴 2 & 3)
+3. 두 트리거 모두 `toggleSidebar()`를 호출하며, 다음을 수행합니다:
+   - `hs.axuielement.applicationElement()`로 Chrome의 `AXUIElement` 루트 가져오기
    - 윈도우에서 `AXDescription`이 "Expand Tabs" 또는 "Collapse Tabs"와 일치하는 버튼 검색하기
    - 찾은 버튼에 `performAction("AXPress")` 호출하기
-4. 마우스 폴러 오류 감지 및 자동 재시작 (스킴 2 & 3)
-5. 앱 전환 시 오작동 방지 유예 시간을 통한 오작동 방지
+4. 워치독이 마우스 폴러가 중단되었는지 감지하여 자동 재시작합니다 (스킴 2 & 3)
+5. 유예 시간을 통해 앱 전환 중 오작동을 방지합니다
+
+---
+
+# Windows reference
+
+
+아래 섹션은 **Windows (AutoHotkey)** 버전에 적용됩니다. 자동 시작 및 문제 해결은 [Windows 참고](windows/README.md)를 확인하세요.
+
+## 사용법 (Windows)
+
+| 단축키 | 동작 |
+|--------|------|
+| `Ctrl+S` (Chrome 내) | 수직 탭 사이드바 토글 |
+| `Ctrl+S` (그 외) | 일반 저장 단축키로 전달 |
+| `Ctrl+Alt+Q` | 스크립트 종료 |
+
+스크립트는 활성 창이 Chromium 창(창 클래스 `Chrome_WidgetWin_1`)일 때만 `Ctrl+S`를 가로채므로, 다른 모든 앱에서는 저장이 정상적으로 작동합니다.
+
+## 단축키 사용자 정의 (Windows)
+
+기본값은 `Ctrl+S`입니다. 다른 키를 사용하려면 `windows/ChromeVTabToggle.ahk`의 핫키 줄을 편집하세요:
+
+```autohotkey
+$^s:: {        ; ^ = Ctrl, ! = Alt, + = Shift, # = Win
+```
+
+예를 들어 `Ctrl+Alt+S`는 `$^!s::`가 됩니다. `Ctrl+S`에서 다른 키로 변경하는 경우, 더 이상 보존할 기본 단축키가 없으므로 `{Blind}^s` 전달 분기를 제거해도 됩니다.
+
+## 작동 방식 (Windows)
+
+1. 전역 `Ctrl+S` 핫키가 활성 창이 Chromium인지 확인합니다 (`WinGetClass = "Chrome_WidgetWin_1"`). 아니면 `Ctrl+S`를 그대로 전달합니다.
+2. `UIA.ElementFromHandle()`이 활성 창의 UI Automation 루트를 가져옵니다.
+3. `FindSidebarButton()`이 UIA 트리를 탐색하여 이름이 `SIDEBAR_LABELS`의 레이블 중 하나와 일치하는 버튼을 찾습니다.
+4. `button.Invoke()`가 사이드바를 토글합니다 — macOS `AXPress`의 UIA 대응 기능입니다.
 
 ## 파일
 
 | 파일 | 설명 |
 |------|------|
-| `init.lua` | 3스킴 버전 (키보드 / 마우스 / 둘 다) |
-| `init-keyboard-only.lua` | 키보드 전용 버전, 마우스 감지 없음 |
+| `init.lua` | 3스킴 버전 (키보드 / 마우스 / 둘 다) — macOS |
+| `init-keyboard-only.lua` | 키보드 전용 버전, 마우스 감지 없음 — macOS |
+| `windows/ChromeVTabToggle.ahk` | Windows 포트 (AutoHotkey v2, 키보드 전용) |
+| `windows/README.md` | Windows 전체 참고 (사용자 정의, 문제 해결) |
 
 ## 크레딧
 
-- 원본 개념:[ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast) by RotulPlastik
-- Hammerspoon에 맞게 적응하고 화면 가장자리 호버 트리거 추가
+- 원본 개념: [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast) by RotulPlastik
+- 화면 가장자리 호버 트리거 지원과 함께 Hammerspoon에 맞게 적응
 
 ## 라이선스
 
