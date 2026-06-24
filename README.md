@@ -30,7 +30,7 @@ https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
 | **macOS** | Hammerspoon + Accessibility API. Keyboard, mouse-edge, or both. | [Installation → macOS](#installation) ↓ |
 | **Windows** | AutoHotkey v2 + UI Automation. Keyboard-only (`Ctrl+S`). | [Installation → Windows](#installation) ↓ |
 
-Both platforms are documented on this page. The sections after **Installation** (Schemes, Triggers, Configuration) are macOS-specific.
+Both platforms are fully documented on this page: see the [macOS reference](#macos-reference) and [Windows reference](#windows-reference) below.
 
 ## Supported Chrome Locales
 
@@ -132,7 +132,7 @@ For shortcut customization and troubleshooting, see the [detailed Windows notes]
 
 # macOS reference
 
-The sections below apply to the **macOS (Hammerspoon)** version. Windows users can stop at [Installation](#installation) — see the [Windows notes](windows/README.md) for Windows-specific details.
+The sections below apply to the **macOS (Hammerspoon)** version. The [Windows reference](#windows-reference) follows further down.
 
 ## Schemes (`init.lua`)
 
@@ -259,6 +259,39 @@ After editing, reload Hammerspoon config to apply.
    - Calls `performAction("AXPress")` on the found button
 4. A watchdog detects if the mouse poller dies and auto-restarts (schemes 2 & 3)
 5. Grace periods prevent false triggers during app switching
+
+---
+
+# Windows reference
+
+The sections below apply to the **Windows (AutoHotkey)** version. See the [Windows notes](windows/README.md) for auto-start and troubleshooting.
+
+## Usage (Windows)
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+S` (in Chrome) | Toggle the vertical tab sidebar |
+| `Ctrl+S` (elsewhere) | Passes through as the normal Save shortcut |
+| `Ctrl+Alt+Q` | Quit the script |
+
+The script only intercepts `Ctrl+S` when the active window is a Chromium window (window class `Chrome_WidgetWin_1`), so saving still works in every other app.
+
+## Customizing the shortcut (Windows)
+
+The default is `Ctrl+S`. To use a different key, edit the hotkey line in `windows/ChromeVTabToggle.ahk`:
+
+```autohotkey
+$^s:: {        ; ^ = Ctrl, ! = Alt, + = Shift, # = Win
+```
+
+For example `Ctrl+Alt+S` would be `$^!s::`. If you change away from `Ctrl+S`, you can also drop the `{Blind}^s` pass-through branch since there's no longer a native shortcut to preserve.
+
+## How it works (Windows)
+
+1. A global `Ctrl+S` hotkey checks whether the active window is Chromium (`WinGetClass = "Chrome_WidgetWin_1"`). If not, it passes `Ctrl+S` through.
+2. `UIA.ElementFromHandle()` gets the UI Automation root for the active window.
+3. `FindSidebarButton()` walks the UIA tree looking for a button whose name matches any label in `SIDEBAR_LABELS`.
+4. `button.Invoke()` toggles the sidebar — the UIA equivalent of macOS `AXPress`.
 
 ## Files
 
