@@ -5,8 +5,8 @@
 <h1 align="center">Chrome-Vertical-Tab-Sidebar-Toggle</h1>
 
 <p align="center">
-  <strong>A Hammerspoon script that toggles Chrome's native vertical tab sidebar via the macOS Accessibility API</strong><br>
-  Keyboard shortcut, mouse edge trigger, or both — your choice.
+  <strong>Toggle Chrome's native vertical tab sidebar with a keyboard shortcut.</strong><br>
+  macOS (Hammerspoon) and Windows (AutoHotkey) — keyboard shortcut, mouse edge trigger, or both.
 </p>
 
 <p align="center">
@@ -17,18 +17,20 @@
 
 ## What it does
 
-Chrome has a built-in vertical tab sidebar, but no keyboard shortcut to toggle it. This script solves that with two versions:
-
-- **`init.lua`** — supports three selectable schemes (keyboard / mouse edge / both)
-- **`init-keyboard-only.lua`** — keyboard shortcut only, no mouse detection
-
-It works by traversing Chrome's Accessibility tree (`AXUIElement`) to find the "Expand Tabs" / "Collapse Tabs" button and pressing it via `AXPress`. Same approach as [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast).
-
-> **On Windows?** A keyboard-only AutoHotkey port lives in [`windows/`](windows/README.md). It uses the Windows UI Automation API to do the same thing (`Ctrl+S` toggles the sidebar).
+Chrome has a built-in vertical tab sidebar, but no keyboard shortcut to toggle it. This project adds one. It finds Chrome's "Expand Tabs" / "Collapse Tabs" button in the OS accessibility tree and presses it for you — using Hammerspoon on macOS, and AutoHotkey on Windows. Same idea as [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast).
 
 ## Demo
 
 https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
+
+## Choose your platform
+
+| Platform | How it works | Get started |
+|----------|--------------|-------------|
+| **macOS** | Hammerspoon + Accessibility API. Keyboard, mouse-edge, or both. | [Installation (macOS)](#installation-macos) ↓ |
+| **Windows** | AutoHotkey v2 + UI Automation. Keyboard-only (`Ctrl+S`). | [Windows guide](windows/README.md) → |
+
+> The rest of this page covers the **macOS** version. Windows users: head to the [Windows guide](windows/README.md).
 
 ## Supported Chrome Locales
 
