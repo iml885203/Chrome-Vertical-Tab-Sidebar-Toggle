@@ -99,7 +99,7 @@ Pick your platform. Both do the same thing; the tooling differs.
    - System Settings → General → Login Items
    - Add Hammerspoon
 
-See [macOS configuration](#schemes-initlua) below for schemes, triggers, and customizing the shortcut.
+See [macOS configuration](#schemes-macos-initlua) below for schemes, triggers, and customizing the shortcut.
 
 </details>
 
@@ -134,7 +134,7 @@ For shortcut customization and troubleshooting, see the [detailed Windows notes]
 
 The sections below apply to the **macOS (Hammerspoon)** version. The [Windows reference](#windows-reference) follows further down.
 
-## Schemes (`init.lua`)
+## Schemes (macOS, `init.lua`)
 
 Edit the `SCHEME` variable at the top of `init.lua` to choose a mode:
 
@@ -150,7 +150,7 @@ local SCHEME = 3  -- 1 = Keyboard, 2 = Mouse edge, 3 = Both
 
 All triggers are automatically disabled when Chrome is not the frontmost app.
 
-## Triggers
+## Triggers (macOS)
 
 | Trigger | Action | Scheme |
 |---------|--------|--------|
@@ -158,7 +158,7 @@ All triggers are automatically disabled when Chrome is not the frontmost app.
 | Mouse hover at left edge (0-2px) for 0.15s | Expand sidebar | 2 & 3 |
 | Mouse moves beyond 380px from left edge | Collapse sidebar | 2 & 3 |
 
-## Debug
+## Debug (macOS)
 
 | Shortcut | Action |
 |----------|--------|
@@ -166,7 +166,7 @@ All triggers are automatically disabled when Chrome is not the frontmost app.
 | `Cmd+Alt+B` | Dump all Chrome AX buttons to Console |
 | `Cmd+Alt+R` | Force restart all services |
 
-## Configuration
+## Configuration (macOS)
 
 ### Scheme selector (`init.lua`)
 
@@ -189,7 +189,7 @@ local MOUSE_POLL_INTERVAL = 0.05  -- seconds between mouse position checks
 local DEBUG = true  -- print debug messages to Console
 ```
 
-## Customizing the keyboard shortcut
+## Customizing the keyboard shortcut (macOS)
 
 Available in both `init.lua` and `init-keyboard-only.lua`. The default shortcut is `Cmd+S`, which overrides Chrome's native "Save page" shortcut. To change it, edit the key check in the `createKeyTap` function:
 
@@ -249,7 +249,7 @@ if flags.cmd and not flags.ctrl and not flags.alt and flags.shift
 
 After editing, reload Hammerspoon config to apply.
 
-## How it works
+## How it works (macOS)
 
 1. An `eventtap` intercepts `Cmd+S` when Chrome is frontmost (schemes 1 & 3)
 2. A mouse position poller (50Hz) detects left-edge hover and exit (schemes 2 & 3)
@@ -263,6 +263,7 @@ After editing, reload Hammerspoon config to apply.
 ---
 
 # Windows reference
+
 
 The sections below apply to the **Windows (AutoHotkey)** version. See the [Windows notes](windows/README.md) for auto-start and troubleshooting.
 
