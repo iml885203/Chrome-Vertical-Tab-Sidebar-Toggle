@@ -3,3 +3,7 @@
 *.swo
 *~
 ChatGPT Image*
+
+# Windows port: third-party UIA library is downloaded by the user, not committed
+windows/UIA.ahk
+windows/UIA_Browser.ahk

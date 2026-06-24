@@ -24,6 +24,8 @@ Chrome has a built-in vertical tab sidebar, but no keyboard shortcut to toggle i
 
 It works by traversing Chrome's Accessibility tree (`AXUIElement`) to find the "Expand Tabs" / "Collapse Tabs" button and pressing it via `AXPress`. Same approach as [ChromeSidebarToggleRaycast](https://github.com/RotulPlastik/ChromeSidebarToggleRaycast).
 
+> **On Windows?** A keyboard-only AutoHotkey port lives in [`windows/`](windows/README.md). It uses the Windows UI Automation API to do the same thing (`Ctrl+S` toggles the sidebar).
+
 ## Demo
 
 https://github.com/user-attachments/assets/bcf2a76a-8028-4b63-bc8a-f0b9e1178a25
@@ -225,8 +227,10 @@ After editing, reload Hammerspoon config to apply.
 
 | File | Description |
 |------|-------------|
-| `init.lua` | Three-scheme version (keyboard / mouse / both) |
-| `init-keyboard-only.lua` | Keyboard-only version, no mouse detection |
+| `init.lua` | Three-scheme version (keyboard / mouse / both) — macOS |
+| `init-keyboard-only.lua` | Keyboard-only version, no mouse detection — macOS |
+| `windows/ChromeVTabToggle.ahk` | Windows port (AutoHotkey v2, keyboard-only) |
+| `windows/README.md` | Windows setup & usage guide |
 
 ## Credits
 
